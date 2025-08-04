@@ -123,6 +123,11 @@ private:
     -0.04573127973037173, -0.02094561026271845, 0.9987339684250071, -0.154543126256660535,
     0, 0, 0, 1);
 
+    Imu_to_livox = (cv::Mat_<double>(4, 4) << 
+    1, 0, 0, -0.04165,
+    0, 1, 0, -0.02326,
+    0, 0, 1, 0.0284,
+    0, 0, 0, 1);
     }
   
   void initializeParams() {
@@ -812,9 +817,13 @@ private:
     for(int i = 0; i < cloud->size(); i++) {
       const auto& pt = cloud->at(i);
 
-      // TODO: transform IMU data into the LIDAR frame
+      // transform IMU data into the LIDAR frame
+      cv::Mat ang_v_Mat = (cv::Mat_<double>(4, 1) << ang_v(0), ang_v(1), ang_v(2), 0);
+      ang_v_Mat = Imu_to_livox * ang_v_Mat;
+      Eigen::Vector3f ang_v_(ang_v_Mat.at<double>(0,0), ang_v_Mat.at<double>(1,0), ang_v_Mat.at<double>(2,0));
+
       double delta_t = scan_period * static_cast<double>(i) / cloud->size();          // 点 i 在扫描周期 scan_period 内的时间偏移
-      Eigen::Quaternionf delta_q(1, delta_t / 2.0 * ang_v[0], delta_t / 2.0 * ang_v[1], delta_t / 2.0 * ang_v[2]);  // 在 delta_t 内发生的旋转
+      Eigen::Quaternionf delta_q(1, delta_t / 2.0 * ang_v_[0], delta_t / 2.0 * ang_v_[1], delta_t / 2.0 * ang_v_[2]);  // 在 delta_t 内发生的旋转
       Eigen::Vector3f pt_ = delta_q.inverse() * pt.getVector3fMap();                  // 将点的三维坐标乘以四元数的逆来应用去畸变变换，并转换成 Vector3f 类型
 
       // 将去畸变后的点添加到新的点云中
@@ -904,6 +913,7 @@ private:
   pcl::Filter<PointT>::Ptr outlier_removal_filter;
 
   cv::Mat Radar_to_livox; // Transform Radar point cloud to LiDAR Frame
+  cv::Mat Imu_to_livox; // Transform IMU data to LiDAR Frame
   cv::Mat Thermal_to_RGB,Radar_to_Thermal,RGB_to_livox,livox_to_RGB,Change_Radarframe;
   rio::RadarEgoVelocityEstimator estimator;
   ros::Publisher pub_twist, pub_inlier_pc2, pub_outlier_pc2, pc2_raw_pub;
