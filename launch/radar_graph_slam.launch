@@ -43,7 +43,7 @@
     <param name="use_distance_filter" value="true" />
     <param name="distance_near_thresh" value="0" />
     <param name="distance_far_thresh" value="350.0" />
-    <param name="z_low_thresh" value="-100.0" />
+    <param name="z_low_thresh" value="-10.0" />
     <param name="z_high_thresh" value="100.0" />
     <!-- NONE, VOXELGRID(0.1), or APPROX_VOXELGRID -->
     <param name="downsample_method" value="VOXELGRID" />
@@ -199,8 +199,8 @@
   <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_NWU_RiQingBuDianBoDiSu3.launch" /> -->
   <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_one_msg.launch" /> -->
   <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_NWU_RiQingBuDianBoGaoSu4.launch" /> -->
-  <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_NWU_RiXueBuDianBoGaoSu.launch" /> -->
-  <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_NWU_YeQingDianBoDiSu.launch" />
+  <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_NWU_RiXueBuDianBoGaoSu21.launch" />
+  <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_NWU_YeQingDianBoDiSu.launch" /> -->
   <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_carpark1.launch" /> -->
   <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_carpark3.launch" /> -->
   <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_garden.launch" /> -->

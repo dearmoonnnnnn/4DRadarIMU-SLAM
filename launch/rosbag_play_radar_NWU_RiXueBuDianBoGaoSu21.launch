@@ -7,17 +7,18 @@
 <!-- <param name="/use_sim_time" value="true"/> -->
 
 <!-- paths to the rosbag files -->
-<arg name="path" default="/home/dearmoon/datasets/NWU/日雪不颠簸高速/enhancing/"/>
+<arg name="path" default="/home/dearmoon/datasets/NWU/日雪不颠簸高速21/4DRadarIMU/"/>
 
-<arg name = "file_0" default = "radar_lidar_step2.bag"/>
+<arg name = "file_0" default = "radar_imu.bag"/>
 
 <!-- Plays the dataset. WARNING: changing 'rate' will cause interactions with the demo.  -->
 <!-- /radar_pcl /radar_trk /ars548_process/detection_point_cloud -->
 <!-- /livox/imu-->
+<!-- duration=10000 -->
 <node pkg="rosbag" type="play" name="player_nwu"
-    args = "--clock --rate=3 --duration=10000
+    args = "--clock --rate=1
     $(arg path)$(arg file_0)
-    --topic /ars548_process/detectioin_PointCloud2 
+    --topic /ars548_process/detectioin_PointCloud2 /livox/imu
     ">
     <remap from="/ars548_process/detectioin_PointCloud2" to="/radar_merged"/>
 </node>
