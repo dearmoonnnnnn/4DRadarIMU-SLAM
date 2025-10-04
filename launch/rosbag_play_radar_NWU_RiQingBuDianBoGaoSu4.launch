@@ -1,0 +1,33 @@
+ <!-- rosbag_play_radar_NWU.launch -->
+
+<!-- This launch file loads rosbags and makes an octomap file -->
+
+<launch>
+
+<!-- <param name="/use_sim_time" value="true"/> -->
+
+<!-- paths to the rosbag files -->
+
+<arg name="path" default="/home/dearmoon/datasets/NWU/"/>
+
+<arg name="scene_0" default="日晴不颠簸低速3/"/>
+<arg name="scene_1" default="日雪不颠簸高速21/"/> 
+<arg name="scene_2" default="夜雪不颠簸高速23/"/>
+<arg name="scene_3" default="日晴不颠簸高速4/"/>
+<arg name="scene" default="$(arg scene_3)"/>
+
+<arg name = "file_0" default = "radar_imu.bag"/>
+
+<!-- Plays the dataset. WARNING: changing 'rate' will cause interactions with the demo.  -->
+<!-- /radar_pcl /radar_trk /ars548_process/detection_point_cloud -->
+<!-- /livox/imu-->
+<!-- duration=10000 -->
+<node pkg="rosbag" type="play" name="player_nwu"
+    args = "--clock --rate=1
+    $(arg path)4DRadarIMU/$(arg file_0)
+    --topic /ars548_process/detectioin_PointCloud2 /livox/imu
+    ">
+    <remap from="/ars548_process/detectioin_PointCloud2" to="/radar_merged"/>
+</node>
+
+</launch>
