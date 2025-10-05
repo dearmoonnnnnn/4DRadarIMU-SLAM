@@ -12,7 +12,7 @@
   <arg name="enable_gps" default="false" />
   <arg name="enable_dynamic_object_removal" default="false" />
   <arg name="enable_frontend_ego_vel" default="false" />
-  <arg name="enable_preintegration" default="false" /> <!-- not used -->
+  <arg name="enable_preintegration" default="true" /> <!-- used for IMU; not for ego -->
 
   <arg name="keyframe_delta_trans_front_end" default="0.5" /> <!-- 原始为 0.5 -->
   <arg name="keyframe_delta_trans_back_end" default="2" /><!-- 1 2 -->
@@ -166,11 +166,11 @@
     <param name="max_gps_edge_stddev_z" value="3.0" />
     <param name="gps_edge_intervals" value="15" />
     <param name="dataset_name" value="loop2" />
-    <!-- Preintegration --> <!-- bad effect, not used -->
+    <!-- Preintegration --> <!-- IMU pre parameter -->
     <param name="enable_preintegration" value="$(arg enable_preintegration)" />
-      <param name="use_egovel_preinteg_trans" value="false" /><!-- Ego Velocity Integration - Translation -->
-      <param name="preinteg_orient_stddev" value="1" />
-      <param name="preinteg_trans_stddev" value="5" />
+      <param name="use_egovel_preinteg_trans" value="false" /><!-- not used -->
+      <param name="preinteg_orient_stddev" value="20" /> <!-- higher with lower convidence-->
+      <param name="preinteg_trans_stddev" value="40" />
     <!-- scan matching -->
     <!-- robust kernels: NONE, Cauchy, DCS, Fair, GemanMcClure, Huber, PseudoHuber, Saturated, Tukey, Welsch -->
     <param name="odometry_edge_robust_kernel" value="NONE" />
@@ -196,10 +196,10 @@
   <node pkg="rviz" type="rviz" name="rviz_slam" args="-d $(find radar_graph_slam)/rviz/radar_graph_slam.rviz" respawn="true"/>
 
   <!--- Rosbag Play -->
-  <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_NWU_RiQingBuDianBoDiSu3.launch" /> -->
   <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_one_msg.launch" /> -->
+  <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_NWU_RiQingBuDianBoDiSu3.launch" />
   <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_NWU_RiQingBuDianBoGaoSu4.launch" /> -->
-  <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_NWU_RiXueBuDianBoGaoSu21.launch" />
+  <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_NWU_RiXueBuDianBoGaoSu21.launch" /> -->
   <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_NWU_YeQingDianBoDiSu.launch" /> -->
   <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_carpark1.launch" /> -->
   <!-- <include file="$(find radar_graph_slam)/launch/rosbag_play_radar_carpark3.launch" /> -->
